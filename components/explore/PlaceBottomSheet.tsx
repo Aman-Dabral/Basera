@@ -1,9 +1,10 @@
 import React, { forwardRef, useMemo } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { SymbolView } from 'expo-symbols';
 import { useRouter } from 'expo-router';
 import { Place } from '../../constants/MockExploreData';
+import { useRecallStore } from '../../store/recall';
 
 interface PlaceBottomSheetProps {
   place: Place | null;
@@ -14,14 +15,25 @@ export const PlaceBottomSheet = forwardRef<BottomSheet, PlaceBottomSheetProps>(
   ({ place, onClose }, ref) => {
     const snapPoints = useMemo(() => ['45%'], []);
     const router = useRouter();
+    const { addCard } = useRecallStore();
 
     const handleAskBuddy = () => {
       if (place) {
-        // Navigate to buddy tab, potentially passing context
         router.push({
           pathname: '/(tabs)/buddy',
           params: { context: `About ${place.name}: ${place.significance}` }
         });
+      }
+    };
+
+    const handleSaveToFlashcards = () => {
+      if (place) {
+        addCard(
+          place.name, 
+          `${place.significance}${place.cuisine ? `\nCuisine: ${place.cuisine}` : ''}`, 
+          'Places'
+        );
+        Alert.alert("Saved!", `Added ${place.name} to your Recall deck.`);
       }
     };
 
@@ -95,7 +107,10 @@ export const PlaceBottomSheet = forwardRef<BottomSheet, PlaceBottomSheetProps>(
               <Text className="text-white font-semibold text-base">Ask Buddy</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity className="bg-white rounded-xl py-3.5 px-6 items-center shadow-sm border border-gray-200">
+            <TouchableOpacity 
+              onPress={handleSaveToFlashcards}
+              className="bg-white rounded-xl py-3.5 px-6 items-center shadow-sm border border-gray-200"
+            >
               <SymbolView name="bookmark" tintColor="#E2703A" size={20} />
             </TouchableOpacity>
           </View>
