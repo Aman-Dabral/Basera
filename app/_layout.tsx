@@ -87,12 +87,12 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{ animation: 'fade_from_bottom', animationDuration: 250 }}>
-        <Stack.Screen name="index" options={{ headerShown: false, animation: 'fade' }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false, animation: 'slide_from_right' }} />
-        <Stack.Screen name="(onboarding)" options={{ headerShown: false, animation: 'fade' }} />
+      <Stack screenOptions={{ animation: 'slide_from_right', animationDuration: 250 }}>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(onboarding)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="modal" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
       </Stack>
     </ThemeProvider>
   );

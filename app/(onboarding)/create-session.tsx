@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { Skeleton } from '../../components/ui/Skeleton';
 import { useRouter } from 'expo-router';
 import { useSessionStore } from '@/store/useSessionStore';
 import { Ionicons } from '@expo/vector-icons';
@@ -138,7 +139,7 @@ export default function CreateSessionScreen() {
               disabled={!languages || !pullReason || loading}
             >
               {loading ? (
-                <ActivityIndicator color="white" />
+              <Skeleton width={24} height={24} borderRadius={12} style={{ backgroundColor: 'rgba(255,255,255,0.5)' }} />
               ) : (
                 <>
                   <Text className="text-white font-semibold text-lg mr-2">Create session</Text>

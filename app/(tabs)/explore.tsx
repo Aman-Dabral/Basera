@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useRef } from 'react';
-import { View, StyleSheet, FlatList, KeyboardAvoidingView, Platform, Image } from 'react-native';
+import React, { useState, useMemo, useRef, useCallback } from 'react';
+import { View, StyleSheet, FlatList, KeyboardAvoidingView, Platform, Image, RefreshControl } from 'react-native';
 import MapView, { UrlTile, PROVIDER_DEFAULT } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BottomSheet from '@gorhom/bottom-sheet';
@@ -24,6 +24,12 @@ export default function ExploreScreen() {
   
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const bottomSheetRef = useRef<BottomSheet>(null);
+
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => setRefreshing(false), 1500);
+  }, []);
 
   // Derive categories from data or statically defined
   const categories: PlaceCategory[] = ['Food', 'Places to visit', 'Areas/Galis', 'Hidden gems'];
@@ -133,10 +139,9 @@ export default function ExploreScreen() {
             {filteredPlaces.length === 0 && searchQuery.length > 0 && (
               <View className="absolute inset-0 items-center justify-center bg-black/10">
                  <View className="bg-white p-6 rounded-2xl items-center shadow-lg">
-                   {/* Fallback to simple icon since the illustration might not exist yet */}
                    <Image 
-                     source={require('../../assets/images/react-logo.png')} 
-                     style={{ width: 80, height: 80, opacity: 0.3, marginBottom: 16 }} 
+                     source={require('../../assets/illustrations/empty-map-search.png')} 
+                     style={{ width: 120, height: 120, resizeMode: 'contain', marginBottom: 16 }} 
                    />
                    <Text className="text-lg font-semibold text-gray-800">No places found</Text>
                    <Text className="text-sm text-gray-500 mt-1">Try a different search or filter</Text>
@@ -148,6 +153,7 @@ export default function ExploreScreen() {
           <FlatList
             data={filteredAreas}
             keyExtractor={(item) => item.id}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#C85322" />}
             renderItem={({ item }) => <AreaCard area={item} onPress={() => {}} />}
             contentContainerStyle={{ paddingBottom: 100 }}
             ListEmptyComponent={() => (

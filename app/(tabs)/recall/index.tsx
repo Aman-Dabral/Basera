@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import React, { useMemo, useState, useCallback } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, Image, RefreshControl } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useRecallStore, Flashcard } from '../../../store/recall';
@@ -23,6 +23,13 @@ export default function RecallIndexScreen() {
     return groups;
   }, [dueCards]);
 
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    // Simulate refresh or re-fetch logic if needed
+    setTimeout(() => setRefreshing(false), 1000);
+  }, []);
+
   const totalDue = dueCards.length;
   const isFinished = totalDue === 0 && cards.length > 0;
   const isEmpty = cards.length === 0;
@@ -31,6 +38,7 @@ export default function RecallIndexScreen() {
     <ScrollView 
       style={{ flex: 1, backgroundColor: '#FAF3E8' }}
       contentContainerStyle={{ paddingTop: insets.top + 20, paddingHorizontal: 20, paddingBottom: 100 }}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#C85322" />}
     >
       <Text className="text-3xl font-heading text-gray-900 mb-6">Recall</Text>
 
@@ -41,9 +49,10 @@ export default function RecallIndexScreen() {
 
         {isEmpty ? (
           <View className="items-center justify-center mt-10">
-            <View className="w-32 h-32 bg-gray-200 rounded-full items-center justify-center mb-4">
-               <SymbolView name="sparkles.rectangle.stack" tintColor="#9CA3AF" size={48} />
-            </View>
+            <Image 
+              source={require('../../../assets/illustrations/empty-flashcards.png')} 
+              style={{ width: 160, height: 160, resizeMode: 'contain', marginBottom: 16 }} 
+            />
             <Text className="text-lg font-semibold text-gray-800 text-center">No cards yet!</Text>
             <Text className="text-sm text-gray-500 text-center mt-2 px-4">
               Save places in Explore or complete lessons in Learn to build your deck.

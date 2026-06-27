@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
+import { Skeleton } from '../../components/ui/Skeleton';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuthStore } from '@/store/auth';
@@ -93,8 +94,7 @@ export default function SignupScreen() {
             onPress={handleSignup}
             disabled={loading}
           >
-            {loading ? (
-              <ActivityIndicator color="white" />
+              <Skeleton width={24} height={24} borderRadius={12} style={{ backgroundColor: 'rgba(255,255,255,0.5)' }} />
             ) : (
               <Text className="text-white font-semibold text-lg">Sign up</Text>
             )}
