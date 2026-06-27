@@ -11,7 +11,6 @@ export interface User {
 
 interface AuthState {
   user: User | null;
-  sessionsCount: number;
   isAuthenticated: boolean;
   
   // Actions
@@ -19,14 +18,12 @@ interface AuthState {
   signupWithEmail: (email: string, password: string) => Promise<void>;
   loginWithGoogle: (userInfo: any) => Promise<void>;
   logout: () => Promise<void>;
-  incrementSessionCount: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      sessionsCount: 0,
       isAuthenticated: false,
 
       loginWithEmail: async (email, password) => {
@@ -79,8 +76,6 @@ export const useAuthStore = create<AuthState>()(
       logout: async () => {
         set({ user: null, isAuthenticated: false });
       },
-      
-      incrementSessionCount: () => set((state) => ({ sessionsCount: state.sessionsCount + 1 })),
     }),
     {
       name: 'basera-auth-storage',

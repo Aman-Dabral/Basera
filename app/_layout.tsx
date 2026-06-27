@@ -9,6 +9,7 @@ import '../global.css';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import { useAuthStore } from '@/store/auth';
+import { useSessionStore } from '@/store/useSessionStore';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -52,7 +53,8 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const { isAuthenticated, sessionsCount } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
+  const { sessions } = useSessionStore();
   const segments = useSegments();
   const router = useRouter();
 
@@ -68,14 +70,14 @@ function RootLayoutNav() {
     } else {
       if (inAuthGroup || isIndex) {
         // Redirect to proper place if they are authenticated
-        if (sessionsCount === 0) {
+        if (sessions.length === 0) {
           router.replace('/(onboarding)/create-session');
         } else {
           router.replace('/(tabs)');
         }
       }
     }
-  }, [isAuthenticated, segments, sessionsCount, router]);
+  }, [isAuthenticated, segments, sessions.length, router]);
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>

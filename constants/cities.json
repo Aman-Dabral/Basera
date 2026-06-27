@@ -1,0 +1,58 @@
+[
+  {
+    "id": "blr",
+    "name": "Bengaluru",
+    "state": "Karnataka",
+    "languages": ["Kannada", "English", "Hindi"],
+    "knownFor": "Tech Hub, Startups, Pleasant Weather, Pubs"
+  },
+  {
+    "id": "mum",
+    "name": "Mumbai",
+    "state": "Maharashtra",
+    "languages": ["Marathi", "Hindi", "English"],
+    "knownFor": "Finance, Bollywood, Marine Drive, Fast-paced Life"
+  },
+  {
+    "id": "del",
+    "name": "Delhi",
+    "state": "Delhi",
+    "languages": ["Hindi", "English", "Punjabi"],
+    "knownFor": "Capital City, History, Food, Monuments"
+  },
+  {
+    "id": "hyd",
+    "name": "Hyderabad",
+    "state": "Telangana",
+    "languages": ["Telugu", "Urdu", "Hindi", "English"],
+    "knownFor": "IT Hub, Biryani, Charminar, Pearls"
+  },
+  {
+    "id": "chn",
+    "name": "Chennai",
+    "state": "Tamil Nadu",
+    "languages": ["Tamil", "English"],
+    "knownFor": "Culture, Temples, Beaches, Automobile Industry"
+  },
+  {
+    "id": "pune",
+    "name": "Pune",
+    "state": "Maharashtra",
+    "languages": ["Marathi", "Hindi", "English"],
+    "knownFor": "Education, IT, Cultural Capital of Maharashtra"
+  },
+  {
+    "id": "kol",
+    "name": "Kolkata",
+    "state": "West Bengal",
+    "languages": ["Bengali", "English", "Hindi"],
+    "knownFor": "Art, Literature, Sweets, Victoria Memorial"
+  },
+  {
+    "id": "ahd",
+    "name": "Ahmedabad",
+    "state": "Gujarat",
+    "languages": ["Gujarati", "Hindi", "English"],
+    "knownFor": "Textiles, Entrepreneurship, Sabarmati Ashram"
+  }
+]
