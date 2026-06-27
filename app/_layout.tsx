@@ -1,5 +1,5 @@
 import { useFonts } from 'expo-font';
-import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
@@ -8,6 +8,7 @@ import { Fraunces_400Regular, Fraunces_600SemiBold } from '@expo-google-fonts/fr
 import '../global.css';
 
 import { useColorScheme } from '@/components/useColorScheme';
+import { useAuthStore } from '@/store/auth';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -16,7 +17,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
+  initialRouteName: 'index',
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -51,10 +52,37 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const { isAuthenticated, sessionsCount } = useAuthStore();
+  const segments = useSegments();
+  const router = useRouter();
+
+  useEffect(() => {
+    const inAuthGroup = segments[0] === '(auth)';
+    const isIndex = segments.length === 0 || (segments.length === 1 && segments[0] === 'index');
+    
+    if (!isAuthenticated) {
+      if (!inAuthGroup && !isIndex) {
+        // Redirect to welcome screen if they try to access a protected route
+        router.replace('/');
+      }
+    } else {
+      if (inAuthGroup || isIndex) {
+        // Redirect to proper place if they are authenticated
+        if (sessionsCount === 0) {
+          router.replace('/(onboarding)/create-session');
+        } else {
+          router.replace('/(tabs)');
+        }
+      }
+    }
+  }, [isAuthenticated, segments, sessionsCount, router]);
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack screenOptions={{ animation: 'fade_from_bottom', animationDuration: 250 }}>
+        <Stack.Screen name="index" options={{ headerShown: false, animation: 'fade' }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false, animation: 'slide_from_right' }} />
+        <Stack.Screen name="(onboarding)" options={{ headerShown: false, animation: 'fade' }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
