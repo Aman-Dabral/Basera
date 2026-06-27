@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "Basera",
+    "slug": "basera",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./ai-context/assets/app-icon.png",
+    "scheme": "basera",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FAF3E8",
+        "foregroundImage": "./ai-context/assets/app-icon.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./ai-context/assets/app-icon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./ai-context/assets/app-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#FAF3E8"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
